@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - 5433:5432
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=osa
+      - POSTGRES_USER=admin
+
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d osa"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
+  backend:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - 8000:8000
+    volumes:
+      - ./osa:/app
+    environment:
+      HOST: db
+      PORT: 5432
+      DB: osa
+      DB_USERNAME: admin
+    depends_on:
+      - db
+    restart: always
+
+volumes:
+  pgdata:
