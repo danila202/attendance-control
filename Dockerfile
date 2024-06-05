@@ -6,7 +6,9 @@ COPY requirements.txt requirements.txt
 RUN python -m pip install --upgrade pip && pip install -r requirements.txt
 
 WORKDIR /app
-COPY ./osa /app
+
+COPY /osa /app
+
 
 EXPOSE 8000
 

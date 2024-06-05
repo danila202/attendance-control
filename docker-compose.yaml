@@ -6,7 +6,7 @@ services:
     ports:
       - 5433:5432
     env_file:
-      - .env
+      - osa/.env
     environment:
       - POSTGRES_DB=osa
       - POSTGRES_USER=admin
@@ -24,7 +24,7 @@ services:
   backend:
     build: .
     env_file:
-      - .env
+      - osa/.env
     ports:
       - 8000:8000
     volumes:

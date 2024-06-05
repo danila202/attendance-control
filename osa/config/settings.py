@@ -87,7 +87,7 @@ DATABASES = {
         'HOST': os.environ.get('HOST'),
         'PORT': os.environ.get('PORT')
 
-        # 'NAME': 'osa',
+        # 'NAME': 'osa_project',
         # 'USER': 'danya',
         # 'PASSWORD': '2207',
         # 'HOST': '127.0.0.1',
