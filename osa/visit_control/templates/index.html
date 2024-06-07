@@ -1,0 +1,15 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Учет посещений</title>
+</head>
+<body>
+<form method="get" action="{% url "visit:view_schedule" %}">
+    <button class="btn-new"> Ближайшие группы </button>
+</form>
+
+</body>
+</html>

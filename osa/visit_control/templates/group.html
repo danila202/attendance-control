@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+            <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        caption {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<table>
+<tr>
+        <caption>Список детей из выбранной группы</caption>
+        <th>ФИО</th>
+        <th>Номер абонемента</th>
+        <th>Дата окончания</th>
+        <th>Количество оставшихся тренировок</th>
+        <th>Время прихода</th>
+        <th>Время ухода</th>
+        <th>ИО родителя</th>
+        <th>Номер телефона</th>
+    </tr>
+    {% for subscription in subscriptions %}
+        <tr>
+        <td>{{ subscription.child.surname}} {{ subscription.child.name_patronymic }}</td>
+        <td>{{ subscription.id }}</td>
+        <td>{{ subscription.conclusion_date|date:"d.m.Y" }}</td>
+        <td> {{ subscription.count }}</td>
+        {% if subscription.first_visit %}
+            <td>{{ subscription.first_visit.time_of_arrival|date:"H:i"}}</td>
+        {% else %}
+            <td>Не пришел</td>
+        {% endif %}
+        {% if subscription.first_visit %}
+            <td>{{ subscription.first_visit.exit_time|date:"H:i"}}</td>
+        {% else %}
+            <td>Не ушел</td>
+        {% endif %}
+        <td>{{ subscription.parent.surname}} {{ subscription.parent.name_patronymic }}</td>
+        <td>{{ subscription.parent.mobile_phone }}</td>
+        </tr>
+    {% endfor %}
+</table>
+<form action="{% url "visit:create_visit" %}" method="post">
+    {% csrf_token %}
+    <p>Номер абонемента:<br> <input name="subscription_id" type="number" />
+    <button type="submit"> Отметить приход</button>
+    <button type="submit" > Отметить уход</button>
+    </p>
+</form>
+</body>
+</html>

@@ -18,7 +18,7 @@ class Parent(models.Model):
 class Child(models.Model):
     surname = models.CharField(max_length=30, verbose_name='Фамилия')
     name_patronymic = models.CharField(max_length=60, verbose_name='Имя Отчество')
-    mobile_phone = models.CharField(max_length=12, verbose_name='Номер телефона', null=True)
+    mobile_phone = models.CharField(max_length=12, verbose_name='Номер телефона', null=True, blank=True)
     birthdate = models.DateField(verbose_name="Дата рождения")
 
     class Meta:
@@ -72,6 +72,7 @@ class Sport(models.Model):
     age_limitations_to = models.PositiveSmallIntegerField(verbose_name='Возраст ограничения до')
     age_limitations_after = models.PositiveSmallIntegerField(verbose_name='Возраст ограничения после')
 
+
     def __str__(self):
         return self.naming
 
@@ -95,9 +96,15 @@ class Document(models.Model):
     whom_issued = models.CharField(max_length=100, verbose_name="Кем выдан")
     validity_period = models.DateField(verbose_name="Срок действия")
     number = models.CharField(max_length=40, verbose_name="Номер")
-    series = models.CharField(max_length=40, verbose_name="Серия", null=True)
-    child = models.ForeignKey(Child, on_delete=models.CASCADE, null=True, related_name='documents')
-    parent = models.ForeignKey(Parent, on_delete=models.CASCADE, null=True, related_name='documents')
+    series = models.CharField(max_length=40, verbose_name="Серия", null=True, blank=True)
+    child = models.ForeignKey(Child, on_delete=models.CASCADE, null=True, blank=True, related_name='documents')
+    parent = models.ForeignKey(Parent, on_delete=models.CASCADE, null=True, blank=True, related_name='documents')
+
+    def __str__(self):
+        if self.parent:
+            return f"{self.parent} - {self.naming}"
+        else:
+            return f"{self.child} - {self.naming}"
 
 
 class Group(models.Model):
@@ -105,7 +112,7 @@ class Group(models.Model):
     max_limitations_people = models.PositiveSmallIntegerField(verbose_name="Максимум детей в группе")
     age_limitations_to = models.PositiveSmallIntegerField(verbose_name='Возраст ограничения до')
     age_limitations_after = models.PositiveSmallIntegerField(verbose_name='Возраст ограничения после')
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='groups')
     naming_sport = models.ForeignKey(Sport, on_delete=models.CASCADE,
                                           related_name='groups')
     children_count = models.PositiveSmallIntegerField(default=0, verbose_name='Количество детей ')
@@ -138,7 +145,7 @@ class Sale(models.Model):
 
 class Subscription(models.Model):
     conclusion_date = models.DateField(verbose_name="Дата заключения")
-    data_end = models.DateField(verbose_name="Дата окончания", default=0)
+    data_end = models.DateField(verbose_name="Дата окончания", default=0, null=True, blank=True)
     child = models.ForeignKey(Child, on_delete=models.CASCADE, related_name='subscriptions',
                               verbose_name='Ребенок')
     parent = models.ForeignKey(Parent, on_delete=models.CASCADE, related_name='subscriptions',
@@ -149,9 +156,9 @@ class Subscription(models.Model):
                                  related_name='subscriptions', verbose_name="Сотрудник")
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='subscriptions', verbose_name="Группа")
 
-    price_with_sale = models.DecimalField(max_digits=10, decimal_places=2)
+    price_with_sale = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
     sale = models.ForeignKey(Sale, on_delete=models.SET_NULL, related_name='subscriptions', verbose_name='Скидка',
-                             null = True)
+                             null=True, blank=True)
     document = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='subscriptions',
                                  verbose_name="Документ")
 
@@ -165,7 +172,7 @@ class Subscription(models.Model):
 class Visitation(models.Model):
     date = models.DateField(verbose_name="Дата прихода")
     time_of_arrival = models.TimeField(verbose_name="Время прихода")
-    exit_time = models.TimeField(null=True, verbose_name="Время ухода")
+    exit_time = models.TimeField(null=True,blank=True, verbose_name="Время ухода")
     subscription = models.ForeignKey(Subscription,on_delete=models.CASCADE,
                                      related_name='visitations')
 
