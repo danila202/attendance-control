@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'visit_control',
+    'notification_bot_api',
 ]
 
 MIDDLEWARE = [

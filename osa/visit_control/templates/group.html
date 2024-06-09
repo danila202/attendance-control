@@ -27,9 +27,16 @@
     </style>
 </head>
 <body>
+
 <table>
 <tr>
-        <caption>Список детей из выбранной группы</caption>
+    <caption>Список детей из выбранной группы</caption>
+    <form action="{% url "visit:view_subscriptions" group.id %}" method="post">
+    {% csrf_token %}
+    <input type="checkbox" name="arrival_children" id="arrival_children" {% if request.POST.arrival_children %}checked{% endif %}>
+    <label for="scales">Пришло</label>
+    <button type="submit">Применить</button>
+    </form>
         <th>ФИО</th>
         <th>Номер абонемента</th>
         <th>Дата окончания</th>
@@ -60,12 +67,17 @@
         </tr>
     {% endfor %}
 </table>
-<form action="{% url "visit:create_visit" %}" method="post">
+    <form action="{% url "visit:create_visit" %}" method="post">
     {% csrf_token %}
     <p>Номер абонемента:<br> <input name="subscription_id" type="number" />
-    <button type="submit"> Отметить приход</button>
-    <button type="submit" > Отметить уход</button>
+    <button type="submit" name="action" value="arrival"> Отметить приход</button>
+    <button type="submit" name="action" value="exit"> Отметить уход</button>
     </p>
+    </form>
+<form method="get" action="{% url "visit_control:statistic" %}">
+    <button class="btn-new"> Статистика посещений групп на сегодня </button>
 </form>
+
 </body>
 </html>
+

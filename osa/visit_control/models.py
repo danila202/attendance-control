@@ -6,6 +6,7 @@ class Parent(models.Model):
     name_patronymic = models.CharField(max_length=60, verbose_name='Имя Отчество')
     mobile_phone = models.CharField(max_length=12, verbose_name='Номер телефона')
     receive_notifications = models.BooleanField(verbose_name="Получать уведомления")
+    chat_id = models.CharField(max_length=100, blank=True, null=True, verbose_name="Чат айди тг бота")
 
     class Meta:
         db_table = 'parents'
