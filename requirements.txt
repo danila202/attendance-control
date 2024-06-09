@@ -5,3 +5,5 @@ typing_extensions==4.12.1
 psycopg2-binary
 django-phone-field
 python-dotenv
+requests
+pyTelegramBotAPI
