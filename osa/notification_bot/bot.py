@@ -26,7 +26,12 @@ def check_mobile_phone(message):
     response = requests.post(URL, json=payload)
     if response.status_code == 200:
         data = response.json()
-        bot.send_message(message.chat.id, f'{data}')
+        ls = ''.join([f' {child}\n' for child in data["data"].get("children")])
+
+        bot.send_message(message.chat.id, f' Ваше ФИО {data["data"].get("parent")}')
+        bot.send_message(message.chat.id, f'ФИО Ваших детей:\n{ls}')
+
+
     else:
         ...
         #Дописать логику
