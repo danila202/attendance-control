@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  {% include 'schedule.html' with schedules=schedules %}
+
+    {% if show_group_data %}
+        {% include 'group.html' with subscriptions=group_data.subscriptions group=group_data.group %}
+        {% else %}
+        {% include 'group.html' with subscriptions=group_data.subscriptions group=group_data.group %}
+    {% endif %}
+
+{% include 'statistic.html' with data_groups=data_groups %}
+
+</head>
+<body>
+
+</body>
+</html>

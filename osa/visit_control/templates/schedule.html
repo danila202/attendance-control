@@ -27,9 +27,12 @@
     </style>
 </head>
 <body>
+ <h2>Расписание на сегодня</h2>
+        <p>Всего найдено: {{ schedules_count }}</p>
 <table>
     <tr>
-        <caption>Расписание на сегодня</caption>
+
+
         <th>Секция</th>
         <th>Группа</th>
         <th>Время начала</th>
@@ -39,13 +42,15 @@
     </tr>
     {% for schedule in schedules %}
         <td>{{ schedule.group.naming_sport }}</td>
-        <td><a href="{% url "visit:view_subscriptions" schedule.group.id %}"> {{ schedule.group.naming }}</a></td>
+        <td><a href="{% url "visit:detail-group" schedule.group.id %}"> {{ schedule.group.naming }}</a></td>
         <td>{{ schedule.start_time|date:"H:i" }}</td>
         <td>{{ schedule.end_time|date:"H:i"}}</td>
         <td>{{ schedule.training_room }}</td>
         <td>{{ schedule.group.children_count }}</td>
     {% endfor %}
 </table>
+
+
 
 </body>
 </html>

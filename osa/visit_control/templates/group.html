@@ -27,16 +27,19 @@
     </style>
 </head>
 <body>
+<h2>Список детей из выбранной группы</h2>
+ <p>Всего найдено: {{ total_subscriptions }}</p>
+<form method="get" style="display: inline-block;">
+        <input type="hidden" name="group_id" value="{{ group.id }}">
+        <label>
+            <input type="checkbox" name="arrival_children" value="on" {% if arrival_checked %}checked{% endif %}>
+            Пришло
+        </label>
+        <button type="submit">Применить</button>
+    </form>
 
 <table>
 <tr>
-    <caption>Список детей из выбранной группы</caption>
-    <form action="{% url "visit:view_subscriptions" group.id %}" method="post">
-    {% csrf_token %}
-    <input type="checkbox" name="arrival_children" id="arrival_children" {% if request.POST.arrival_children %}checked{% endif %}>
-    <label for="scales">Пришло</label>
-    <button type="submit">Применить</button>
-    </form>
         <th>ФИО</th>
         <th>Номер абонемента</th>
         <th>Дата окончания</th>
@@ -69,14 +72,16 @@
 </table>
     <form action="{% url "visit:create_visit" %}" method="post">
     {% csrf_token %}
-    <p>Номер абонемента:<br> <input name="subscription_id" type="number" />
+    <p> Введите номер абонемента:<br> <input name="subscription_id" type="number" />
     <button type="submit" name="action" value="arrival"> Отметить приход</button>
     <button type="submit" name="action" value="exit"> Отметить уход</button>
     </p>
     </form>
-<form method="get" action="{% url "visit_control:statistic" %}">
-    <button class="btn-new"> Статистика посещений групп на сегодня </button>
-</form>
+
+{#<form method="post" action="{% url "visit:all" %}">#}
+{#     {% csrf_token %}#}
+{#    <button class="btn-new" name="action" value="pushed"> Статистика посещений групп на сегодня </button>#}
+{#</form>#}
 
 </body>
 </html>
