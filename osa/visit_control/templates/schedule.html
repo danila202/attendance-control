@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-        <style>
+    <style>
         table {
             width: 100%;
             border-collapse: collapse;
@@ -19,16 +19,27 @@
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
-        caption {
-            font-size: 1.5em;
-            font-weight: bold;
-            margin-bottom: 10px;
+        h2 {
+            text-align: center;
+        }
+        .align-right {
+            text-align: right;
+            padding-right: 60px;
+        }
+        .custom-link {
+            color: black; /* Замените на нужный цвет */
+            text-decoration: none;
+        }
+        .custom-link:hover {
+            color: rosybrown; /* Опционально: другой цвет при наведении */
         }
     </style>
 </head>
 <body>
- <h2>Расписание на сегодня</h2>
-        <p>Всего найдено: {{ schedules_count }}</p>
+    <h2>Расписание на сегодня</h2>
+    <div class="align-right">
+        <p>Найдено групп: {{ schedules_count }}</p>
+    </div>
 <table>
     <tr>
 
@@ -42,7 +53,7 @@
     </tr>
     {% for schedule in schedules %}
         <td>{{ schedule.group.naming_sport }}</td>
-        <td><a href="{% url "visit:detail-group" schedule.group.id %}"> {{ schedule.group.naming }}</a></td>
+        <td><a class="custom-link" href="{% url "visit:detail-group" schedule.group.id %}"> {{ schedule.group.naming }}</a></td>
         <td>{{ schedule.start_time|date:"H:i" }}</td>
         <td>{{ schedule.end_time|date:"H:i"}}</td>
         <td>{{ schedule.training_room }}</td>

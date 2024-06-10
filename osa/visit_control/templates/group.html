@@ -19,17 +19,21 @@
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
-        caption {
-            font-size: 1.5em;
-            font-weight: bold;
-            margin-bottom: 10px;
+        h2 {
+            text-align: center;
+        }
+        .align-right {
+            text-align: right;
+            padding-right: 60px;
         }
     </style>
 </head>
 <body>
 <h2>Список детей из выбранной группы</h2>
- <p>Всего найдено: {{ total_subscriptions }}</p>
-<form method="get" style="display: inline-block;">
+<div class="align-right">
+ Найдено детей: {{ total_subscriptions }}
+</div>
+<form method="get" style="display: inline-block; ">
         <input type="hidden" name="group_id" value="{{ group.id }}">
         <label>
             <input type="checkbox" name="arrival_children" value="on" {% if arrival_checked %}checked{% endif %}>

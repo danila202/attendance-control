@@ -1,9 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+      <meta charset="UTF-8">
     <title>Title</title>
-  {% include 'schedule.html' with schedules=schedules %}
+    <style>
+.current-datetime {
+            text-align: right;
+            font-size: 18px;
+            color: #555;
+
+        }
+    </style>
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const formattedDate = now.toLocaleDateString('ru-RU');
+            const formattedTime = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('current-date').innerText = `Дата: ${formattedDate}`;
+            document.getElementById('current-time').innerText = `Время: ${formattedTime}`;
+        }
+        window.onload = function() {
+            updateDateTime();
+            setInterval(updateDateTime, 1000); // Update every second
+        }
+    </script>
+
+
+</head>
+<body>
+    <div id="current-datetime" class="current-datetime">
+        <strong><p id="current-date"></p></strong>
+        <strong><p id="current-time"></p></strong>
+    </div>
+{% include 'schedule.html' with schedules=schedules %}
 
     {% if show_group_data %}
         {% include 'group.html' with subscriptions=group_data.subscriptions group=group_data.group %}
@@ -12,9 +41,6 @@
     {% endif %}
 
 {% include 'statistic.html' with data_groups=data_groups %}
-
-</head>
-<body>
 
 </body>
 </html>

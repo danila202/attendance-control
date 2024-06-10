@@ -105,7 +105,7 @@ def create_visit(request):
                 )
                 chat_id = visitation.subscription.parent.chat_id
                 if chat_id:
-                    message = f"Ваш ребенок пришел на тренировку в {visitation.time_of_arrival}"
+                    message = f"Ваш ребенок пришел на тренировку в <b> {visitation.time_of_arrival} </b>"
                     send_notification(message, chat_id)
 
             elif request.POST.get('action') == 'exit':
@@ -114,7 +114,7 @@ def create_visit(request):
                 visitation.save()
                 chat_id = visitation.subscription.parent.chat_id
                 if chat_id:
-                    message = f"Ваш ребенок вышел с тренировки в {visitation.exit_time}"
+                    message = f"Ваш ребенок вышел с тренировки в <b>{visitation.exit_time}</b>"
                     send_notification(message, chat_id)
 
         return redirect(request.META.get('HTTP_REFERER', '/'))
