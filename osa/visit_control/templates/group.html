@@ -1,92 +1,69 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-            <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        h2 {
-            text-align: center;
-        }
-        .align-right {
-            text-align: right;
-            padding-right: 60px;
-        }
-    </style>
-</head>
-<body>
-<h2>Список детей из выбранной группы</h2>
-<div class="align-right">
- Найдено детей: {{ total_subscriptions }}
-</div>
-<form method="get" style="display: inline-block; ">
-        <input type="hidden" name="group_id" value="{{ group.id }}">
-        <label>
-            <input type="checkbox" name="arrival_children" value="on" {% if arrival_checked %}checked{% endif %}>
-            Пришло
-        </label>
-        <button type="submit">Применить</button>
-    </form>
+<html lang="ru">
+    <head>
+      <meta charset="UTF-8">
+      <title>Группы</title>
+     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    </head>
+    <body>
+        <h2>Список детей из выбранной группы</h2>
+        <p>Всего найдено: {{ total_subscriptions }}</p>
+        <form method="get">
+            <input type="hidden" name="group_id" value="{{ group.id }}">
+            <label class="checkbox">
+              <input class="checkbox__input" type="checkbox" name="arrival_children" value="on" {% if arrival_checked %}checked{% endif %}>
+              <span class="checkbox__switch"></span>
+              Пришло
+            </label>
+            <button type="submit">Применить</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>ФИО ребенка</th>
+                    <th>Номер абонемента</th>
+                    <th>Дата окончания</th>
+                    <th>Количество оставшихся <br> тренировок</th>
+                    <th>Время прихода</th>
+                    <th>Время ухода</th>
+                    <th>ФИО родителя</th>
+                    <th>Номер телефона</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subscription in subscriptions %}
+                <tr>
+                    <td>{{ subscription.child.surname}} {{ subscription.child.name_patronymic }}</td>
+                    <td>{{ subscription.id }}</td>
+                    <td>{{ subscription.conclusion_date|date:"d.m.Y" }}</td>
+                    <td> {{ subscription.count }}</td>
+                    {% if subscription.first_visit %}
+                    <td>{{ subscription.first_visit.time_of_arrival|date:"H:i"}}</td>
+                    {% else %}
+                    <td>Не пришел</td>
+                    {% endif %}
+                    {% if subscription.first_visit %}
+                    <td>{{ subscription.first_visit.exit_time|date:"H:i"}}</td>
+                    {% else %}
+                    <td>Не ушел</td>
+                    {% endif %}
+                    <td>{{ subscription.parent.surname}} {{ subscription.parent.name_patronymic }}</td>
+                    <td>{{ subscription.parent.mobile_phone }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <form action="{% url "visit:create_visit" %}" method="post">
+        {% csrf_token %}
+        <label>Введите номер абонемента: <input name="subscription_id" type="number" placeholder=" " /></label>
+        <button type="submit" name="action" value="arrival"> Отметить приход</button>
+        <button type="submit" name="action" value="exit"> Отметить уход</button>
+        </form>
 
-<table>
-<tr>
-        <th>ФИО</th>
-        <th>Номер абонемента</th>
-        <th>Дата окончания</th>
-        <th>Количество оставшихся тренировок</th>
-        <th>Время прихода</th>
-        <th>Время ухода</th>
-        <th>ИО родителя</th>
-        <th>Номер телефона</th>
-    </tr>
-    {% for subscription in subscriptions %}
-        <tr>
-        <td>{{ subscription.child.surname}} {{ subscription.child.name_patronymic }}</td>
-        <td>{{ subscription.id }}</td>
-        <td>{{ subscription.conclusion_date|date:"d.m.Y" }}</td>
-        <td> {{ subscription.count }}</td>
-        {% if subscription.first_visit %}
-            <td>{{ subscription.first_visit.time_of_arrival|date:"H:i"}}</td>
-        {% else %}
-            <td>Не пришел</td>
-        {% endif %}
-        {% if subscription.first_visit %}
-            <td>{{ subscription.first_visit.exit_time|date:"H:i"}}</td>
-        {% else %}
-            <td>Не ушел</td>
-        {% endif %}
-        <td>{{ subscription.parent.surname}} {{ subscription.parent.name_patronymic }}</td>
-        <td>{{ subscription.parent.mobile_phone }}</td>
-        </tr>
-    {% endfor %}
-</table>
-    <form action="{% url "visit:create_visit" %}" method="post">
-    {% csrf_token %}
-    <p> Введите номер абонемента:<br> <input name="subscription_id" type="number" />
-    <button type="submit" name="action" value="arrival"> Отметить приход</button>
-    <button type="submit" name="action" value="exit"> Отметить уход</button>
-    </p>
-    </form>
-
-{#<form method="post" action="{% url "visit:all" %}">#}
-{#     {% csrf_token %}#}
-{#    <button class="btn-new" name="action" value="pushed"> Статистика посещений групп на сегодня </button>#}
-{#</form>#}
-
-</body>
+        {#<form method="post" action="{% url "visit:all" %}">#}
+        {#     {% csrf_token %}#}
+        {#    <button class="btn-new" name="action" value="pushed"> Статистика посещений групп на сегодня </button>#}
+        {#</form>#}
+    </body>
 </html>
-

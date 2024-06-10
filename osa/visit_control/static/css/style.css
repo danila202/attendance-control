@@ -1,0 +1,205 @@
+@import url('visit_control/static/vendor/font.css');
+
+:root {
+    /* colors */
+    --background-main: #1D1C21;
+    --background-secondary: #25232A;
+    --color-main: #F9F9FB;
+    --color-accent: #C80A2C;
+    --color-accent-hover: #AC001F;
+    --color-gray: #4A494D;
+}
+
+body {
+    max-width: 1440px;
+    margin: 80px auto;
+    font-family: 'Source Sans Pro', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--background-main);
+    color: var(--color-main);
+}
+
+h2 {
+    position: relative;
+    margin: 0 0 24px;
+    padding: 0 0 24px;
+}
+
+h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 254px;
+    height: 1px;
+    background: linear-gradient(90deg, #C80A2C -2.73%, #1D1C21 100%);
+}
+
+p {
+    margin: 0 0 16px;
+    padding: 0;
+}
+
+a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: all .3s linear;
+}
+
+table {
+    width: auto;
+    margin: 24px 0;
+    font-family: inherit;
+    border-collapse: collapse;
+}
+
+th {
+    padding: 16px 8px;
+    text-align: center;
+    vertical-align: middle;
+    background: var(--background-secondary);
+    border: none;
+    border-bottom: 2px solid var(--color-accent);
+}
+
+td {
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+    border: none;
+    border-bottom: 2px solid var(--color-gray);
+}
+
+button {
+    position: relative;
+    display: inline-block;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 14px;
+    color: inherit;
+    background: var(--color-accent);
+    border: none;
+    border-radius: 12px;
+    box-sizing: border-box;
+    appearance: none;
+    outline: transparent;
+    cursor: pointer;
+    transition: all .3s linear;
+}
+
+button[name="action"] {
+    align-self: end;
+}
+
+label:has(input[type="number"]) {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+input[type="number"] {
+    padding: 4px 16px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    color: var(--background-main);
+    border-radius: 12px;
+    border: 1px solid var(--color-gray);
+    outline: transparent;
+    box-sizing: border-box;
+    transition: all .3s linear;
+}
+
+input[type="number"]:focus,
+input[type="number"]:focus-visible,
+input[type="number"]:active {
+    outline: 1px solid transparent;
+    border: 1px solid var(--color-accent);
+}
+
+input[type="number"]:valid:not(:placeholder-shown) {
+    border-color: var(--color-accent);
+}
+
+form {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin: 24px 0;
+}
+
+.checkbox {
+    display: inline-flex;
+}
+
+.checkbox__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+.checkbox__switch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--color-gray);
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: all .3s linear;
+}
+
+.checkbox__input:checked + .checkbox__switch {
+    background: var(--color-accent);
+}
+
+.checkbox__input:checked + .checkbox__switch::before {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 1px;
+    background: var(--color-main);
+}
+
+.checkbox__input:checked + .checkbox__switch::after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 1px;
+    background: var(--color-main);
+    transform: rotate(90deg);
+}
+.current-datetime {
+    text-align: right;
+    font-size: 18px;
+    color: white;
+    }
+
+@media (hover: hover) {
+    button:hover {
+        background: var(--color-accent-hover);
+    }
+    .checkbox__switch:hover {
+        border-color: var(--color-accent);
+    }
+    a:hover {
+        color: var(--color-accent-hover);
+    }
+    input[type="number"]:hover {
+        border-color: var(--color-accent-hover);
+    }
+    input[type="number"]:is(:active, :focus, :focus-within):hover {
+        border-color: var(--color-accent);
+    }
+
+}
+

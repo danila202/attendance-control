@@ -36,9 +36,3 @@ def check_parent_mobile_phone(request):
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
 
 
-def send_notification_arrival_time():
-    pass
-
-
-def send_notification_exit_time():
-    pass

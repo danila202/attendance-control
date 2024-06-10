@@ -1,67 +1,37 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        h2 {
-            text-align: center;
-        }
-        .align-right {
-            text-align: right;
-            padding-right: 60px;
-        }
-        .custom-link {
-            color: black; /* Замените на нужный цвет */
-            text-decoration: none;
-        }
-        .custom-link:hover {
-            color: rosybrown; /* Опционально: другой цвет при наведении */
-        }
-    </style>
-</head>
-<body>
-    <h2>Расписание на сегодня</h2>
-    <div class="align-right">
-        <p>Найдено групп: {{ schedules_count }}</p>
-    </div>
-<table>
-    <tr>
-
-
-        <th>Секция</th>
-        <th>Группа</th>
-        <th>Время начала</th>
-        <th>Время окончания</th>
-        <th>Номер зала</th>
-        <th>Количество детей в группе</th>
-    </tr>
-    {% for schedule in schedules %}
-        <td>{{ schedule.group.naming_sport }}</td>
-        <td><a class="custom-link" href="{% url "visit:detail-group" schedule.group.id %}"> {{ schedule.group.naming }}</a></td>
-        <td>{{ schedule.start_time|date:"H:i" }}</td>
-        <td>{{ schedule.end_time|date:"H:i"}}</td>
-        <td>{{ schedule.training_room }}</td>
-        <td>{{ schedule.group.children_count }}</td>
-    {% endfor %}
-</table>
-
-
-
-</body>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Расписание</title>
+       <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    </head>
+    <body>
+        <h2>Расписание на сегодня</h2>
+        <p>Всего найдено: {{ schedules_count }}</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Секция</th>
+                    <th>Группа</th>
+                    <th>Время начала</th>
+                    <th>Время окончания</th>
+                    <th>Номер зала</th>
+                    <th>Количество детей в группе</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for schedule in schedules %}
+                <tr>
+                    <td>{{ schedule.group.naming_sport }}</td>
+                    <td><a href="{% url "visit:detail-group" schedule.group.id %}"> {{ schedule.group.naming }}</a></td>
+                    <td>{{ schedule.start_time|date:"H:i" }}</td>
+                    <td>{{ schedule.end_time|date:"H:i"}}</td>
+                    <td>{{ schedule.training_room }}</td>
+                    <td>{{ schedule.group.children_count }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
 </html>

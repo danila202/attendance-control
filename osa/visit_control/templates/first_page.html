@@ -1,17 +1,12 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-      <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <title>Title</title>
-    <style>
-.current-datetime {
-            text-align: right;
-            font-size: 18px;
-            color: #555;
+ <link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}">
 
-        }
-    </style>
-    <script>
+     <script>
         function updateDateTime() {
             const now = new Date();
             const formattedDate = now.toLocaleDateString('ru-RU');
@@ -21,18 +16,17 @@
         }
         window.onload = function() {
             updateDateTime();
-            setInterval(updateDateTime, 1000); // Update every second
+            setInterval(updateDateTime, 1000); // Обновление каждую секунду
         }
     </script>
-
 
 </head>
 <body>
     <div id="current-datetime" class="current-datetime">
-        <strong><p id="current-date"></p></strong>
-        <strong><p id="current-time"></p></strong>
+        <p id="current-date"></p>
+        <p id="current-time"></p>
     </div>
-{% include 'schedule.html' with schedules=schedules %}
+  {% include 'schedule.html' with schedules=schedules %}
 
     {% if show_group_data %}
         {% include 'group.html' with subscriptions=group_data.subscriptions group=group_data.group %}
@@ -41,6 +35,5 @@
     {% endif %}
 
 {% include 'statistic.html' with data_groups=data_groups %}
-
 </body>
 </html>
