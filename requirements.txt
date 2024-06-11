@@ -7,3 +7,4 @@ django-phone-field
 python-dotenv
 requests
 pyTelegramBotAPI
+faker

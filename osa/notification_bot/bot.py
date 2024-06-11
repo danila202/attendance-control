@@ -35,6 +35,7 @@ def check_mobile_phone(message):
         bot.send_message(message.chat.id, f' Ваше ФИО <b> {data["data"].get("parent")}</b>',
                          parse_mode="HTML")
         bot.send_message(message.chat.id, f'ФИО Ваших детей:\n<b>{ls}</b>', parse_mode="HTML")
+        bot.send_message(message.chat.id, '🎉🎉Теперь Вы будете получать уведомления о посещениях')
     else:
         ...
         #Дописать логику

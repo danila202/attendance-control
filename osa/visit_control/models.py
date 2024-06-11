@@ -11,7 +11,6 @@ class Parent(models.Model):
     class Meta:
         db_table = 'parents'
 
-
     def __str__(self):
         return f"{self.surname} {self.name_patronymic}"
 
@@ -107,6 +106,9 @@ class Document(models.Model):
         else:
             return f"{self.child} - {self.naming}"
 
+    class Meta:
+        db_table = 'document'
+
 
 class Group(models.Model):
     naming = models.CharField(max_length=30)
@@ -143,6 +145,9 @@ class Sale(models.Model):
     reason = models.CharField(max_length=100, verbose_name="Причина")
     price = models.SmallIntegerField(verbose_name="Цена")
 
+    class Meta:
+        db_table = 'sale'
+
 
 class Subscription(models.Model):
     conclusion_date = models.DateField(verbose_name="Дата заключения")
@@ -161,7 +166,7 @@ class Subscription(models.Model):
     sale = models.ForeignKey(Sale, on_delete=models.SET_NULL, related_name='subscriptions', verbose_name='Скидка',
                              null=True, blank=True)
     document = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='subscriptions',
-                                 verbose_name="Документ")
+                                 verbose_name="Документ", null=True, blank=True)
 
     def __str__(self):
         return f"{self.conclusion_date}.{self.child}.{self.group}"
